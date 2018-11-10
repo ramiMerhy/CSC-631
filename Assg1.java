@@ -244,7 +244,7 @@ public class Assg1 {
 				}
 			}
 		}
-
+		//
 		if (code.equals("ld")) {
 			if (uCounter.equals("00")) {
 				int returnValueFrontArray[] = { 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 };
@@ -275,6 +275,7 @@ public class Assg1 {
 				}
 			}
 		}
+		//
 		if (code.equals("011001")) {
 			if (uCounter.equals("00")) {
 				int returnValueFrontArray[] = { 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1 };
@@ -306,6 +307,134 @@ public class Assg1 {
 					globalReturnValue.add(i);
 				}
 				for (int i = 0; i < bitArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+		}
+		//
+		if (code.equals("011011")) {
+			if (uCounter.equals("00")) {
+				int returnValueFrontArray[] = { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 0, 0, 0, 0, 1 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+			if (uCounter.equals("01")) {
+				int returnValueFrontArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+		}
+		//
+		if (code.equals("011100")) {
+			if (uCounter.equals("00")) {
+				int returnValueFrontArray[] = { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 0, 0, 0, 0, 1 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+			if (uCounter.equals("01")) {
+				int returnValueFrontArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 1, 0 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+			if (uCounter.equals("10")) {
+				int returnValueFrontArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 1, 0 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+		}
+		//
+		if (code.equals("110100")) {
+			if (uCounter.equals("00")) {
+				int returnValueFrontArray[] = { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 0, 0, 0, 0, 1 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+			if (uCounter.equals("01")) {
+				int returnValueFrontArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+				int returnValueEndArray[] = { 1, 0 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < returnValueEndArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+			}
+			if (uCounter.equals("10")) {
+				int returnValueFrontArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+				int returnValueEndArray[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+						0, 0, 0 };
+
+				for (int i = 0; i < returnValueFrontArray.length; i++) {
+					globalReturnValue.add(i);
+				}
+				for (int i = 0; i < target.length; i++) {
 					globalReturnValue.add(i);
 				}
 				for (int i = 0; i < returnValueEndArray.length; i++) {
