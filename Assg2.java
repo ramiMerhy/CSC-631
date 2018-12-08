@@ -27,8 +27,9 @@ public class Assg2 {
 					isTakenBranch = false;
 				//
 				System.out.println("line " + counter + " >>> " + line);
-				System.out.println("branchInstructionAdd >>> " + branchInstructionAdd);
-				System.out.println("branchTargetAdd >>> " + branchTargetAdd);
+				System.out.println(
+						"branchInstructionAdd >>> " + Integer.toBinaryString(hexToDecimal(branchInstructionAdd)));
+				System.out.println("branchTargetAdd >>> " + Integer.toBinaryString(hexToDecimal(branchTargetAdd)));
 				System.out.println("isTakenBranch >>> " + isTakenBranch);
 
 				// read next line
@@ -40,5 +41,17 @@ public class Assg2 {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static int hexToDecimal(String hex) {
+		String digits = "0123456789ABCDEF";
+		hex = hex.toUpperCase();
+		int val = 0;
+		for (int i = 0; i < hex.length(); i++) {
+			char c = hex.charAt(i);
+			int d = digits.indexOf(c);
+			val = 16 * val + d;
+		}
+		return val;
 	}
 }
