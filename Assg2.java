@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Assg2 {
 	public static void main(String[] args) {
@@ -19,6 +20,7 @@ public class Assg2 {
 			//
 			String outputLine = "";
 			//
+			String[] splitedOutputLine;
 			String[] splitedLine;
 			String branchInstructionAdd = "";
 			String branchTargetAdd = "";
@@ -36,13 +38,10 @@ public class Assg2 {
 			String[] before3LinesSplitedLine;
 			Boolean before3LinesIsTakenBranch = false;
 
-			// read from the written new file "the_buffer_64.txt"
-			String readFromWriterPreLine = "";
-			String[] readFromWriterPreLineSplitedLine;
+			// read from the written array "the_buffer_64.txt"
+			ArrayList<String> bufferTakenStatusArray = new ArrayList<String>();
 			Boolean readFromWriterPreLineIsTakenBranch = false;
 
-			String readFromWriterBefore2Lines = "";
-			String[] readFromWriterBefore2LinesSplitedLine;
 			Boolean readFromWriterBefore2LinesIsTakenBranch = false;
 			//
 			int counter = 1;
@@ -101,57 +100,51 @@ public class Assg2 {
 						before2LinesIsTakenBranch = false;
 				}
 
-				if (counter > 1) {
+				if (counter > 2) {
 					// read the line before two lines of the current one and
 					// read
 					// the taken status
-					before2Lines = Files
+					before3Lines = Files
 							.readAllLines(Paths.get("C:/Users/user/workspace/AssignementTwo/src/branch_history.txt"))
 							.get(counter - 3);
-					before2LinesSplitedLine = before2Lines.split("\\s+");
-					if (before2LinesSplitedLine[2].equals("1"))
-						before2LinesIsTakenBranch = true;
+					before3LinesSplitedLine = before3Lines.split("\\s+");
+					if (before3LinesSplitedLine[2].equals("1"))
+						before3LinesIsTakenBranch = true;
 					else
-						before2LinesIsTakenBranch = false;
+						before3LinesIsTakenBranch = false;
 				}
 
-				// read from the written new file "the_buffer_64.txt"
-				if (counter > 0) {
-					// read the line before one line of the current one and read
-					// the
-					// taken status
-					readFromWriterPreLine = Files
-							.readAllLines(Paths.get("C:/Users/user/workspace/AssignementTwo/src/the_buffer_64.txt"))
-							.get(counter - 1);
-					readFromWriterPreLineSplitedLine = readFromWriterPreLine.split("\\s+");
-					if (readFromWriterPreLineSplitedLine[2].equals("1"))
-						readFromWriterPreLineIsTakenBranch = true;
-					else
-						readFromWriterPreLineIsTakenBranch = false;
-				}
+				// if the last 3 lines are equal
+				if (((preLineIsTakenBranch && before2LinesIsTakenBranch && before3LinesIsTakenBranch)
+						|| (!preLineIsTakenBranch && !before2LinesIsTakenBranch && !before3LinesIsTakenBranch))
+						&& counter != 1) {
+					// read from the written temporary array
+					if (counter > 1) {
+						if (bufferTakenStatusArray.get(counter - 2).equals("true")
+								|| bufferTakenStatusArray.get(counter - 2).equals("1"))
+							readFromWriterPreLineIsTakenBranch = true;
+						else
+							readFromWriterPreLineIsTakenBranch = false;
+					}
 
-				if (counter > 1) {
-					// read the line before two lines of the current one and
-					// read
-					// the taken status
-					readFromWriterBefore2Lines = Files
-							.readAllLines(Paths.get("C:/Users/user/workspace/AssignementTwo/src/the_buffer_64.txt"))
-							.get(counter - 2);
-					readFromWriterBefore2LinesSplitedLine = readFromWriterBefore2Lines.split("\\s+");
-					if (readFromWriterBefore2LinesSplitedLine[2].equals("1"))
-						readFromWriterBefore2LinesIsTakenBranch = true;
-					else
-						readFromWriterBefore2LinesIsTakenBranch = false;
-				}
-
-				// if the -3 lines are equal
-				if ((preLineIsTakenBranch && before2LinesIsTakenBranch)
-						|| (!preLineIsTakenBranch && !before2LinesIsTakenBranch)) {
+					if (counter > 2) {
+						if (bufferTakenStatusArray.get(counter - 3).equals("true")
+								|| bufferTakenStatusArray.get(counter - 3).equals("1"))
+							readFromWriterBefore2LinesIsTakenBranch = true;
+						else
+							readFromWriterBefore2LinesIsTakenBranch = false;
+					}
 					//
 					if ((((readFromWriterPreLineIsTakenBranch && readFromWriterBefore2LinesIsTakenBranch)
 							|| (!readFromWriterPreLineIsTakenBranch && !readFromWriterBefore2LinesIsTakenBranch))
 							&& (!line.equals(readFromWriterPreLineIsTakenBranch))) || counter == 1) {
 
+						if (bufferTakenStatusArray.get(bufferTakenStatusArray.size() - 1).equals(true)
+								|| bufferTakenStatusArray.get(bufferTakenStatusArray.size() - 1).equals("1"))
+							isTakenBranch = true;
+						else
+							isTakenBranch = false;
+						//
 						if (isTakenBranch && counter != 1)
 							outputLine = branchInstructionAdd + "   " + branchTargetAdd + " " + 0;
 						//
@@ -181,11 +174,19 @@ public class Assg2 {
 				}
 
 				// write the line into the buffer file
-				if (counter == 1 || !takenStatusChange)
+				if (counter == 1 || !takenStatusChange) {
 					writer.println(line);
-				else
+					//
+					bufferTakenStatusArray.add(String.valueOf(isTakenBranch));
+				} else {
 					writer.println(outputLine);
-
+					//
+					splitedOutputLine = outputLine.split("\\s+");
+					if (splitedOutputLine[2].equals("1") || splitedOutputLine[2].equals("true"))
+						bufferTakenStatusArray.add("true");
+					else
+						bufferTakenStatusArray.add("false");
+				}
 				/*
 				 * System.out.println("line " + counter + " >>> " + line);
 				 * System.out.println( "branchInstructionAdd >>> " +
