@@ -183,4 +183,104 @@ def DIV_DOUBLE(DestReg, SourceReg1, SourceReg2):
 	return (OP_DIV_DOUBLE<<20)| (SourceReg1<<15) | (SourceReg2<<5) | DestReg
 
 #Pinky Machine Functions
-...
+#Load a value from memory
+def LOAD(iDestReg, iAddress, iBaseReg):
+	R[iDestReg] = DM[iAddress + iBaseReg]
+	
+def LOAD_DOUBLE(iDestReg, iAddress, iBaseReg):
+	R[iDestReg + 32] = float(DM[iAddress + iBaseReg])
+
+#Store a value in memory
+def STORE(iAddress, iBaseReg, iSourceReg):
+	DM[iAddress + iBaseReg] = R[iSourceReg]
+
+def STORE_DOUBLE(iAddress, iBaseReg, iSourceReg):
+	DM[iAddress + iBaseReg] = R[iSourceReg + 32]
+
+#Shift left the content of a register in the register file and store the results
+def SLF(iDestReg, iSourceReg, iShiftAmt):
+	R[iDestReg] = R[iSourceReg] << iShiftAmt
+	
+#Shift right the content of a register in the register file and store the results	
+def SRF(iDestReg, iSourceReg, iShiftAmt):
+	R[iDestReg] = R[iSourceReg] >> iShiftAmt
+
+# Add The contents of the two registers in the register file and store the results
+def ADDf(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] + R[iSourceReg2]
+	
+def ADD_DOUBLE_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg + 32] = R[iSourceReg1 + 32] + R[iSourceReg2 + 32]
+
+#Sub The contents of the two registers in the register file and store the result
+def SUBf(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] - R[iSourceReg2]
+
+def SUB_DOUBLE_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg + 32] = R[iSourceReg1 + 32] - R[iSourceReg2 + 32]
+
+#Multiply The contents of the two registers in the register file and store the result
+def MULTf(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] * R[iSourceReg2]
+
+def MULTDf(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg + 32] = R[iSourceReg1 + 32]  * R[iSourceReg2+32]
+
+#Divide The contents of the two registers in the register file and store the result	
+def DIVf(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg2] / R[iSourceReg1]
+
+def DIV_DOUBLE_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg + 32] = float(R[iSourceReg2 + 32]) / R[iSourceReg1 + 32]
+
+#Logical 'and' the contents of the two registers in the register file and store the results
+def AND_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] & R[iSourceReg2]
+
+#Logical 'or' the contents of the two registers in the register file and store the results   
+def OR_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] | R[iSourceReg2]
+
+#Logical 'xor' the contents of the two registers in the register file and store the results   
+def XOR_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] ^ R[iSourceReg2]
+
+#Add The contents of a register and an immediate and stores the results Set the condition flags    	
+def ADDS_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] + R[iSourceReg2]
+	Z_flag = 1 if R[iDestReg] == 0 else 0
+	N_flag = 1 if R[iDestReg] < 0 else 0
+
+#Add The contents of a register and an immediate and stores the results Set the condition flags    	
+def SUBS_FUNCTION(iDestReg, iSourceReg1, iSourceReg2):
+	R[iDestReg] = R[iSourceReg1] - R[iSourceReg2]
+	Z_flag = 1 if R[iDestReg] == 0 else 0
+	N_flag = 1 if R[iDestReg] < 0 else 0
+
+#Picky Machine Decode Unit
+def decode_unit(IR):
+	iOpcode = IR >> 20
+	data = IR & (2**20 - 1)
+	iDestReg, iSourceReg1, iSourceReg2, iAddress, iBaseReg, iShiftAmt = (-1,) * 6
+		
+	if iOpcode == OP_LDW or iOpcode == OP_LDW_DOUBLE:
+		iBaseReg = (data >> 5) & 31
+		iAddress = (data >> 10) & 31
+		iDestReg = data & 31
+		
+	elif iOpcode == OP_STW or iOpcode == OP_STWD_DOUBLE:
+		iBaseReg = (data >> 5) &31
+		iAddress = (data >> 10) & 31
+		iSourceReg1 = data & 31 
+	
+	elif iOpcode == OP_ADD or iOpcode == OP_SUB or iOpcode == OP_AND or iOpcode == OP_OR or iOpcode == OP_XOR or iOpcode == OP_ADD_DOUBLE or iOpcode == OP_SUB_DOUBLE or iOpcode == OP_MUL or iOpcode == OP_MUL_DOUBLE or iOpcode == OP_DIV or iOpcode == OP_DIV_DOUBLE or iOpcode == OP_ADDS or iOpcode == OP_SUBS:
+		iDestReg = data & 31 
+		iSourceReg1 = (data >> 5) & 31
+		iSourceReg2 = (data >> 15) &31
+	
+	elif iOpcode == OP_SL or iOpcode == OP_SR:
+		iDestReg = data & 31
+		iShiftAmt = (data >> 10) & 31
+		iSourceReg1 = (data >>15) & 31
+
+	return {'iOpcode':iOpcode, 'iDestReg':iDestReg, 'iSourceReg1':iSourceReg1, 'iSourceReg2':iSourceReg2, 'iAddress':iAddress, 'iBaseReg':iBaseReg, 'iShiftAmt':iShiftAmt, 'iUnit' : ''}
